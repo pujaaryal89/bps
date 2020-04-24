@@ -1,0 +1,67 @@
+{% extends 'visitortemplates/visitorbase.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <h1 class="text-center text-info" >Title: {{location.title}}</h1><hr>
+  {% if location.image %}
+   <img src="{{ location.image.url }}" class="img-responsive" alt="img" width="100%" height="100%">
+  {% endif %}
+  <h2>Description: {{location.description}}</h2>
+  <h3>Tourist Guide: {{location.locationguider}} {{location.locationguider.mobile}}</h3>
+	
+</div>
+{% if request.user.is_authenticated %}
+ <form method="POST" action="{% url 'bpsapp:locationreview' location.pk %}">
+  {% csrf_token %}
+  {{form.as_p}}
+  <button class="btn btn-primary">Submit data</button>	
+</form>
+{% endif %}
+<div class="row">
+	<div class="col-md-12">
+		<h4 class="p-1 text-warning">Visitor reviews </h4><hr>
+		{% for review in location.locationreview_set.all|dictsortreversed:"id" %}
+		<div class="row">
+			<div class="col-md-8">
+				<li>{{review.review}}</li>
+				<p class="{% if review.rating == 'Excellent' %}text-success{% elif review.rating == 'Good' or review.rating == 'Average' %}text-info{% elif review.rating == 'Poor' %}text-warning{% else %}text-danger{% endif %}">({{review.rating}}) 
+				</p>
+<!-- 				<a href="" class="replylink"> Reply</a>
+ --><!-- 		        <div class="reply" style="display: none;">
+
+				<form method="POST" enctype="multipart/form-data" action="{% url 'bpsapp:locationreviewreply' review.id %}">
+		        {% csrf_token %}
+		        {{replyform.as_p}}
+		          
+		        </form>
+		        </div> 
+		          {% if request.user == locationreview.commenter %}
+		          <a href="{% url 'bpsapp:locationreviewdelete' review.id %}">Delete</a>
+		          {% endif %}
+			</div> -->
+			<div class="col-md-4">
+				<li>Review by: {{review.commenter.name}}</li>
+				<p>on: {{review.created_at}}</p>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+{% endblock %}			
+
+{% block js %}<!-- 
+ <script type="text/javascript">
+ 	$('document').ready(function(){
+ 		$('.reply').hide();
+ 	})
+ 
+ 		$('.replylink').on('click',function(){
+ 			$('.reply').show();
+
+ 		})
+ 	
+ </script> -->
+
+{% endblock %}

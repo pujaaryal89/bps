@@ -1,0 +1,27 @@
+{% extends 'visitortemplates/visitorbase.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="card mx-auto mt-4" style="width: 24rem;">
+        <div class="card-header">
+            <strong class="lead">Welcome to Register</strong>
+            <br />
+            <small class="form-help">Please fill up all form to register.</small>
+        </div>
+        <div class="card-body mt-n3">
+            <!-- main-heading -->
+            <h2 class="main-title-w3layouts mb-2 text-center text-white">Login</h2>
+                
+<!--            {% if error %}
+            <li class="text-danger">password</li>
+            {% endif %} -->
+            <form method="POST" enctype="multipart/form-data">
+             {% csrf_token %}
+             {{ form.as_p }}
+             <button class="btn btn-info w-75 primary">Register</button>
+
+            </form> 
+        </div>
+</div>
+{% endblock %}

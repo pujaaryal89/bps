@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>    
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">  
+
+  <link rel="stylesheet" type="text/css" href="{% static 'visitorstatic/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'visitorstatic/css/style.css' %}">
+
+<!--   <style>
+    body {
+      width: 100%;
+      height: 100%;
+    }
+  </style> -->
+
+  {% block css %}
+
+  {% endblock %}
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a href="/" class="navbar-brand">Ghumna Jau</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="nav-menu" aria-expanded="true" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a href="/" class="nav-item nav-link active">Home</a>
+                <a href="{% url 'bpsapp:locationcategory' %}" class="nav-item nav-link active">LocationCategory</a>
+                <a href="#" class="nav-item nav-link active">Services</a>
+
+            </div>
+            {% if request.user.is_authenticated %}
+            <div class="navbar-nav">
+                <a href="{% url 'bpsapp:login' %}" class="nav-item nav-link active color-light">
+            {{request.user}}</a>
+                <a href="{% url 'bpsapp:logout' %}" class="nav-item nav-link active color-light"><i class="fa fa-sign-in primary" aria-hidden="true"> </i>Logout</a>
+            </div>
+            {% else %}
+            <div class="navbar-nav">
+                <a href="{% url 'bpsapp:login' %}" class="nav-item nav-link active color-light"><i class="fa fa-user primary" aria-hidden="true"> </i>login</a>
+                <a href="{% url 'bpsapp:register' %}" class="nav-item nav-link active color-light"><i class="fa fa-sign-in primary" aria-hidden="true"> </i>Signup</a>
+            {% endif %}
+           </div> 
+        </div>
+    </nav>
+
+          
+<!-- End Of NavBar -->
+<div class="container">
+  {% block content %}
+
+  {% endblock %}
+</div>
+
+  <script src="{% static 'visitorstatic/js/jquery.min.js' %}"></script>
+
+  <script src="{% static 'visitorstatic/js/bootstrap.bundle.min.js' %}"></script>
+
+  <script src="{% static 'visitorstatic/js/scripts.js' %}"></script>
+
+
+
+
+<!-- <script>
+var x = document.getElementById("demo");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+
+  x.innerHTML = "Latitude: " + position.coords.latitude + 
+  "<br>Longitude: " + position.coords.longitude;
+}
+</script> -->
+</body> 
+</html>

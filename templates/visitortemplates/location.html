@@ -1,0 +1,20 @@
+{% extends 'visitortemplates/visitorbase.html' %}
+{% load static %}
+
+{% block content %}
+<h1 class="text-center text-info" >{{category.title}}</h1><hr>
+
+<div class="row">
+	{% for locatio in location%}
+	<div class="col-md-4 mt-3 mb-3">
+		<div class="card" style="width: 350px;">
+			<img class="card-img-top" src="{{locatio.image.url}}" alt="img-fluid img-thumbnail" style="height: 250px;object-fit: cover; width: 350px;">
+			<div class="card-body">
+				<h5 class="card-title"><a style="text-decoration: none !important" href="{% url 'bpsapp:locationdetail' locatio.id %}">{{locatio.title}}</a></h5>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+{% endblock %}
