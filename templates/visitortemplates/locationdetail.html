@@ -27,19 +27,27 @@
 				<li>{{review.review}}</li>
 				<p class="{% if review.rating == 'Excellent' %}text-success{% elif review.rating == 'Good' or review.rating == 'Average' %}text-info{% elif review.rating == 'Poor' %}text-warning{% else %}text-danger{% endif %}">({{review.rating}}) 
 				</p>
-<!-- 				<a href="" class="replylink"> Reply</a>
- --><!-- 		        <div class="reply" style="display: none;">
+		          {% if request.user.commenter == locationreview.commenter %}
+		           <a href="{% url 'bpsapp:locationreviewdelete' review.id %}">Delete</a>
+		          {% endif %}
+		          <h3>Replies</h3>
+		          {% for reply in review.reply_set.all %}
+		          <p>{{reply.text}}</p>
+		          {% endfor %}
+				 <div class="reply">
 
 				<form method="POST" enctype="multipart/form-data" action="{% url 'bpsapp:locationreviewreply' review.id %}">
 		        {% csrf_token %}
 		        {{replyform.as_p}}
+		        <input type="submit" name="" value="submit">
+		        
 		          
-		        </form>
 		        </div> 
-		          {% if request.user == locationreview.commenter %}
-		          <a href="{% url 'bpsapp:locationreviewdelete' review.id %}">Delete</a>
-		          {% endif %}
-			</div> -->
+				<button  href="" class="replylink" value="Reply">Reply</button>
+
+		        </form>
+
+			</div>
 			<div class="col-md-4">
 				<li>Review by: {{review.commenter.name}}</li>
 				<p>on: {{review.created_at}}</p>
@@ -51,17 +59,18 @@
 
 {% endblock %}			
 
-{% block js %}<!-- 
- <script type="text/javascript">
+{% block js %}
+  <script type="text/javascript">
  	$('document').ready(function(){
  		$('.reply').hide();
  	})
  
- 		$('.replylink').on('click',function(){
- 			$('.reply').show();
+ 	$('.replylink').on('click',function(){
+ 		$('.reply').show();
+ 		// $('.reply').hide();
 
- 		})
+ 	})
  	
- </script> -->
+ </script>
 
 {% endblock %}

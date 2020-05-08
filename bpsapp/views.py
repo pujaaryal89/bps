@@ -138,6 +138,7 @@ def locationreviewdelete_view(request,reviewdelete_pk):
     location_id=comment_obj.location.id
 
     if request.user.is_authenticated and request.user==commenter.user:
+        print(comment_obj)
         comment_obj.delete()
 
     else:
@@ -154,19 +155,17 @@ def locationreviewreply_view(request,review_pk):
         location_id=comment_obj.location.id
     
     
-
         if replyform.is_valid():
             text=replyform.cleaned_data['text']
-            reply=Reply.objects.create(text=text)
-            comment_obj.reply = reply
-            comment_obj.save()
+            reply=Reply.objects.create(text=text,review=comment_obj)
+
             
 
-    # else:
-    #     form=ReplyForm()
-    #     context={
-    #      'replyform':replyform,
-    #     }  
+    else:
+        form=ReplyForm()
+        context={
+         'replyform':replyform,
+        }  
     return HttpResponseRedirect(reverse('bpsapp:locationdetail',kwargs={'detail_pk':location_id}))          
 
 

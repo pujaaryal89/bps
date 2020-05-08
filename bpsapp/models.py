@@ -92,7 +92,6 @@ class LocationReview(Timestamp):
     commenter = models.ForeignKey(Visitor, on_delete=models.CASCADE)
     review = models.TextField()
     rating = models.CharField(max_length=50, choices=Rating)
-    reply=models.ForeignKey('Reply',on_delete=models.CASCADE,null=True,blank=True)
 
 
 class Siteinformation(Timestamp):
@@ -105,6 +104,7 @@ class Siteinformation(Timestamp):
 
 class Reply(Timestamp):
     text=models.TextField()
+    review = models.ForeignKey(LocationReview, on_delete=models.CASCADE, null=True,blank=True)
     date=models.DateTimeField(auto_now_add=True)
 
       
