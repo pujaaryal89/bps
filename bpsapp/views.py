@@ -70,21 +70,16 @@ def logout_view(request):
     messages.info(request, "Logged out successfully!")
     return redirect("/")                  		
     
-def locationcategory_view(request):
 
-	locationlists=LocationCategory.objects.all()
-	context={
-	 'locationlists':locationlists
-	}
-	return render(request,'visitortemplates/locationcategory.html',context)
+def location_view(request):
 
-def location_view(request,pk):
-
-    category=LocationCategory.objects.get(id=pk)
-    location=Location.objects.filter(category=category)
+    location=Location.objects.all()
+    category=LocationCategory.objects.all()
+    
     context={
      'location':location,
-     'category':category
+     'category':category,
+    
      
     }
     return render(request,'visitortemplates/location.html',context)
@@ -94,12 +89,22 @@ def locationdetail_view(request,detail_pk):
     form=ReviewForm()
     replyform=ReplyForm()
     locationdetail=Location.objects.get(id=detail_pk)
+    category=locationdetail.category.all()
+    print(category)
     review=LocationReview.objects.all()
+   
+  
     context={
      'form':form,
      'location':locationdetail,
      'review':review,
      'replyform':replyform,
+     'categorys':category,
+    
+    
+     
+      
+
     }
 
     return render(request,'visitortemplates/locationdetail.html',context)
@@ -145,29 +150,6 @@ def locationreviewdelete_view(request,reviewdelete_pk):
        print("user is not commenter")
 
     return HttpResponseRedirect(reverse('bpsapp:locationdetail',kwargs={'detail_pk':location_id}))          
-
-@login_required
-def locationreviewreply_view(request,review_pk):
-    replyform=ReplyForm()
-    if request.method=='POST':
-        replyform=ReplyForm(request.POST)
-        comment_obj=LocationReview.objects.get(id=review_pk)
-        location_id=comment_obj.location.id
-    
-    
-        if replyform.is_valid():
-            text=replyform.cleaned_data['text']
-            reply=Reply.objects.create(text=text,review=comment_obj)
-
-            
-
-    else:
-        form=ReplyForm()
-        context={
-         'replyform':replyform,
-        }  
-    return HttpResponseRedirect(reverse('bpsapp:locationdetail',kwargs={'detail_pk':location_id}))          
-
 
 
 

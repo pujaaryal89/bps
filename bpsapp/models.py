@@ -79,11 +79,11 @@ class Visitor(Timestamp):
         return self.name
         
 Rating = (
-    ("Excellent", "Excellent"),
-    ("Good", "Good"),
-    ("Average", "Average"),
-    ("Poor", "Poor"),
-    ("Not Good", "Not Good"),
+    (5, 5),
+    (4, 4),
+    (3, 3),
+    (2, 2),
+    (1, 1),
 
 )
 
@@ -91,7 +91,7 @@ class LocationReview(Timestamp):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     commenter = models.ForeignKey(Visitor, on_delete=models.CASCADE)
     review = models.TextField()
-    rating = models.CharField(max_length=50, choices=Rating)
+    rating = models.IntegerField(choices=Rating)
 
 
 class Siteinformation(Timestamp):
