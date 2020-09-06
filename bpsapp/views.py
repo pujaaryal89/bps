@@ -10,6 +10,9 @@ from django.contrib.auth import logout, authenticate, login
 from .forms import RegistrationForm,LoginForm,ReviewForm,ReplyForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from  bpsapp.Recommendation import KNN.py 
+
+
 
 def Visitorhome_view(request):
 
